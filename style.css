@@ -72,7 +72,6 @@ span {
     transition: color 0.2s;
 }
 
-/* Expandable panels: hidden by default */
 .expandable {
     display: none;
 }
@@ -80,11 +79,8 @@ span {
     display: block;
 }
 
-/* Clickable triggers in the intro paragraph */
 .trigger {
     cursor: pointer;
-    /* text-decoration: underline;
-    text-underline-offset: 2px; */
 }
 
 .trigger:hover,
@@ -97,7 +93,6 @@ body[data-hover-group] .media-item {
     cursor: pointer;
 }
 
-/* When intro is dimmed, grey out everything including the inactive trigger */
 .intro.dimmed {
     color: #aaa;
 }
@@ -107,8 +102,6 @@ body[data-hover-group] .media-item {
 .intro.dimmed .trigger.active {
     color: #000;
 }
-
-/* Active trigger gets no extra style — stays black like the other trigger */
 
 .goal.dimmed,
 .info-names li.dimmed {
@@ -136,20 +129,15 @@ body[data-hover-group] .media-item {
     height: 100vh;
     overflow-y: scroll;
     gap: 40px;
-    /* Snap each item to the center of the viewport */
-    scroll-snap-type: y mandatory;
-    /* Vertical padding so items above/below peek at half their gap */
     padding: 20px 0;
 }
 
-/* hide scrollbar */
 .scroll-container::-webkit-scrollbar { display: none; }
 .scroll-container { scrollbar-width: none; }
 
 .media-item {
     position: relative;
     flex-shrink: 0;
-    scroll-snap-align: center;
 }
 
 .media-item a {

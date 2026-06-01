@@ -40,7 +40,7 @@ function createItem(item) {
     let el;
     if (item.type === 'video') {
         el = document.createElement('video');
-        el.dataset.src = item.src; // loaded lazily via IntersectionObserver
+        el.dataset.src = item.src;
         el.loop = true;
         el.muted = true;
         el.playsInline = true;
@@ -72,7 +72,7 @@ function createItem(item) {
     wrapper.addEventListener('mouseenter', () => window.onMediaHover?.(item.group));
     wrapper.addEventListener('mouseleave', () => window.onMediaHoverOut?.());
     wrapper.addEventListener('click',      (e) => {
-        if (item.link) return; // let the <a> handle it
+        if (item.link) return;
         window.onMediaClick?.(item.group);
     });
 
@@ -101,7 +101,6 @@ function centerOnElement(el) {
 
 centerOnElement(midEl);
 
-// Load and play videos only when they enter the viewport; pause when they leave
 const videoObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         const video = entry.target;
@@ -131,7 +130,6 @@ container.addEventListener('scroll', () => {
     }
 }, { passive: true });
 
-// Called by the info panel script when a project is activated or cleared
 function setActiveGroup(group) {
     document.querySelectorAll('.media-item').forEach(item => {
         if (!group || item.dataset.group === group) {
@@ -141,3 +139,56 @@ function setActiveGroup(group) {
         }
     });
 }
+
+const triggers  = document.querySelectorAll('.trigger');
+const panels    = document.querySelectorAll('.expandable');
+const intro     = document.querySelector('.intro');
+const goal      = document.querySelector('.goal');
+const nameItems = document.querySelectorAll('.info-names li');
+
+function reset() {
+    triggers.forEach(t => t.classList.remove('active'));
+    panels.forEach(p => p.classList.remove('visible'));
+    intro.classList.remove('dimmed');
+    goal.classList.remove('dimmed');
+    nameItems.forEach(li => li.classList.remove('dimmed'));
+    setActiveGroup(null);
+    document.body.removeAttribute('data-hover-group');
+}
+
+function activate(target) {
+    triggers.forEach(t => t.classList.remove('active'));
+    triggers.forEach(t => { if (t.dataset.target === target) t.classList.add('active'); });
+    panels.forEach(p => p.classList.remove('visible'));
+    document.getElementById('panel-' + target).classList.add('visible');
+    intro.classList.add('dimmed');
+    goal.classList.add('dimmed');
+    nameItems.forEach(li => {
+        li.classList.toggle('dimmed', li.dataset.group !== target);
+    });
+    setActiveGroup(target);
+    document.body.removeAttribute('data-hover-group');
+}
+
+triggers.forEach(trigger => {
+    trigger.addEventListener('click', () => {
+        const target   = trigger.dataset.target;
+        const isActive = trigger.classList.contains('active');
+        isActive ? reset() : activate(target);
+    });
+});
+
+window.onMediaHover = (group) => {
+    document.body.setAttribute('data-hover-group', group);
+};
+window.onMediaHoverOut = () => {
+    document.body.removeAttribute('data-hover-group');
+};
+window.onMediaClick = (group) => {
+    const alreadyActive = [...triggers].find(t => t.classList.contains('active'))?.dataset.target === group;
+    alreadyActive ? reset() : activate(group);
+};
+
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.info, .media-item')) reset();
+});
