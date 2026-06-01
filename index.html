@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+
+    <link rel="stylesheet" href="fonts.css">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<aside class="info">
+    <p class="info-body intro">Our team consists of two multicultural design duos who seek to combine their two independently created research projects <span class="trigger" data-target="hyper">Hyper⏝Print</span> and <span class="trigger name" data-target="project">((( <span class="lines">|||</span> <span class="diagonals">///</span></span> to push the boundaries of classic RISO printing.</p>
+
+    <p class="info-body expandable" id="panel-hyper"><span>Hyper⏝Print</span> explores and stretches the boundaries of print machines by exploiting the perceived constraints during their built in processes. The final Risograph print — a hybrid object somewhere between a publication and poster series — is the result of extensive experimentation on printing machines, formats and the role of paper in the design process.</p>
+
+    <p class="info-body expandable" id="panel-project"><span class="name">((( <span class="lines">|||</span> <span class="diagonals">///</span></span> is an inquiry into image recreation directly on the printer's scanner bed. The duo printed a three-colour 250 page book using only the copy function of a conventional Canon office printer.</p>
+
+    <p class="info-body goal">The goal for the Kulturbüro residency is to create a series of large-scale prints using only the RISO and its built in features as our design interface and folded paper as our canvas. By combining both techniques we seek to push the boundaries of the RISO by rethinking the printer as a design tool from start to finish.</p>
+
+    <ul class="info-names">
+        <li data-group="hyper" class="trigger" data-target="hyper">Jules Hoogkamer (Basel)</li>
+        <li data-group="hyper" class="trigger" data-target="hyper">Vero Arancibia Daes (Bogota)</li>
+        <li data-group="project" class="trigger" data-target="project">Tzuchi Su (Taipei)</li>
+        <li data-group="project" class="trigger" data-target="project">Marco-Antonio Grubben (Lausanne)</li>
+    </ul>
+</aside>
+
+<div class="scroll-container" id="scroll-container"></div>
+
+<script src="script.js"></script>
+<script>
+    const triggers  = document.querySelectorAll('.trigger');
+    const panels    = document.querySelectorAll('.expandable');
+    const intro     = document.querySelector('.intro');
+    const goal      = document.querySelector('.goal');
+    const nameItems = document.querySelectorAll('.info-names li');
+
+    function reset() {
+        triggers.forEach(t => t.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('visible'));
+        intro.classList.remove('dimmed');
+        goal.classList.remove('dimmed');
+        nameItems.forEach(li => li.classList.remove('dimmed'));
+        setActiveGroup(null);
+        document.body.removeAttribute('data-hover-group');
+    }
+
+    function activate(target) {
+        triggers.forEach(t => t.classList.remove('active'));
+        triggers.forEach(t => { if (t.dataset.target === target) t.classList.add('active'); });
+        panels.forEach(p => p.classList.remove('visible'));
+        document.getElementById('panel-' + target).classList.add('visible');
+        intro.classList.add('dimmed');
+        goal.classList.add('dimmed');
+        nameItems.forEach(li => {
+            li.classList.toggle('dimmed', li.dataset.group !== target);
+        });
+        setActiveGroup(target);
+        document.body.removeAttribute('data-hover-group');
+    }
+
+    triggers.forEach(trigger => {
+        trigger.addEventListener('click', () => {
+            const target   = trigger.dataset.target;
+            const isActive = trigger.classList.contains('active');
+            isActive ? reset() : activate(target);
+        });
+    });
+
+    // Called from script.js when hovering/clicking a media item
+    window.onMediaHover = (group) => {
+        document.body.setAttribute('data-hover-group', group);
+    };
+    window.onMediaHoverOut = () => {
+        document.body.removeAttribute('data-hover-group');
+    };
+    window.onMediaClick = (group) => {
+        const alreadyActive = triggers[0].classList.contains('active') &&
+            [...triggers].find(t => t.classList.contains('active'))?.dataset.target === group;
+        alreadyActive ? reset() : activate(group);
+    };
+
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.info, .media-item')) reset();
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,184 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+  font-family: "Ortica Linear Regular";
+  src: url("./fonts/OrticaLinear-Regular.woff2");
+}
+
+@font-face {
+  font-family: "Unica77 Regular";
+  src: url("./fonts/Unica77-Regular.woff2");
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    background-color: #ffffff;
+    font-family: 'Unica77 Regular';
+    font-size: 12px;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+}
+
+span {
+    font-size: 12px;
+    font-family: 'Ortica Linear Regular';
+}
+
+.name {
+    vertical-align: 0.3ex;
+}
+
+.lines {
+    font-size: 12.5px;
+    vertical-align: -0.1ex;
+    letter-spacing: 1.5px;
+}
+
+.diagonals {
+    font-size: 11.5px;
+    vertical-align: -0.1ex;
+}
+
+.info {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: 35vw;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.info-title {
+    font-family: 'Ortica Linear Regular';
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.info-body {
+    font-size: 12px;
+    line-height: 1.2;
+    transition: color 0.2s;
+}
+
+/* Expandable panels: hidden by default */
+.expandable {
+    display: none;
+}
+.expandable.visible {
+    display: block;
+}
+
+/* Clickable triggers in the intro paragraph */
+.trigger {
+    cursor: pointer;
+    /* text-decoration: underline;
+    text-underline-offset: 2px; */
+}
+
+.trigger:hover,
+body[data-hover-group="hyper"]   .trigger[data-target="hyper"],
+body[data-hover-group="project"] .trigger[data-target="project"] {
+    font-style: italic;
+}
+
+body[data-hover-group] .media-item {
+    cursor: pointer;
+}
+
+/* When intro is dimmed, grey out everything including the inactive trigger */
+.intro.dimmed {
+    color: #aaa;
+}
+.intro.dimmed .trigger {
+    color: #aaa;
+}
+.intro.dimmed .trigger.active {
+    color: #000;
+}
+
+/* Active trigger gets no extra style — stays black like the other trigger */
+
+.goal.dimmed,
+.info-names li.dimmed {
+    color: #aaa;
+    transition: color 0.2s;
+}
+
+.media-item.dimmed {
+    opacity: 0.2;
+    transition: opacity 0.2s;
+}
+
+.info-names {
+    list-style: none;
+    font-size: 11.5px;
+    font-family: 'Ortica Linear Regular';
+    line-height: 1.1;
+}
+
+.scroll-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    overflow-y: scroll;
+    gap: 40px;
+    /* Snap each item to the center of the viewport */
+    scroll-snap-type: y mandatory;
+    /* Vertical padding so items above/below peek at half their gap */
+    padding: 20px 0;
+}
+
+/* hide scrollbar */
+.scroll-container::-webkit-scrollbar { display: none; }
+.scroll-container { scrollbar-width: none; }
+
+.media-item {
+    position: relative;
+    flex-shrink: 0;
+    scroll-snap-align: center;
+}
+
+.media-item a {
+    display: block;
+    line-height: 0;
+    color: inherit;
+    text-decoration: none;
+}
+
+.media.horizontal {
+    height: 45vh;
+    width: auto;
+}
+
+.media.vertical {
+    height: 65vh;
+    width: auto;
+}
+
+.media.larger {
+    height: 55vh;
+    width: auto;
+}
+
+.media-tag {
+    position: absolute;
+    top: 0;
+    left: calc(100% + 8px);
+    white-space: nowrap;
+    color: #000;
+    line-height: 1;
+}
