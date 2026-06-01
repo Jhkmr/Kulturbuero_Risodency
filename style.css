@@ -169,4 +169,5 @@ body[data-hover-group] .media-item {
     white-space: nowrap;
     color: #000;
     line-height: 1;
+    text-transform: uppercase;
 }

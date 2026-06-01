@@ -8,15 +8,16 @@ const media = [
     { src: 'media/IMG_8581.mp4',           type: 'video', orientation: 'horizontal', name: 'PRINT_PROCESS.MP4',          group: 'hyper'   },
     { src: 'media/optimised/IMG_9119.jpg', type: 'image', orientation: 'horizontal', name: 'DESIGN_PROCESS.JPG',          group: 'hyper'   },
     { src: 'media/optimised/IMG_9484.jpg', type: 'image', orientation: 'vertical',   name: 'FOLD_EXPERIMENTS.JPG',          group: 'hyper'   },
-    { src: 'media/WEB_Rec.mp4',            type: 'video', orientation: 'horizontal', name: 'WEB_DOCU.MP4',           group: 'hyper',  link: 'https://jhkmr.github.io/hyper_print/' },
-    { src: 'media/horizontal3.png',        type: 'image', orientation: 'horizontal', name: 'horizontal3.PNG',       group: 'project' },
-    { src: 'media/horizontal3 copy.png',   type: 'image', orientation: 'horizontal', name: 'horizontal3 copy.PNG',  group: 'project' },
-    { src: 'media/horizontal3 copy 2.png', type: 'image', orientation: 'horizontal', name: 'horizontal3 copy2.PNG', group: 'project' },
-    { src: 'media/horizontal3 copy 3.png', type: 'image', orientation: 'horizontal', name: 'horizontal3 copy3.PNG', group: 'project' },
-    { src: 'media/IMG_5463.jpeg',          type: 'image', orientation: 'vertical',   name: 'IMG_5463.JPG',         group: 'project' },
-    { src: 'media/vertical3 copy.png',     type: 'image', orientation: 'vertical',   name: 'vertical3 copy.PNG',    group: 'project' },
-    { src: 'media/vertical3 copy 2.png',   type: 'image', orientation: 'vertical',   name: 'vertical3 copy2.PNG',   group: 'project' },
-    { src: 'media/vertical3 copy 3.png',   type: 'image', orientation: 'vertical',   name: 'vertical3 copy3.PNG',   group: 'project' },
+    { src: 'media/WEB_Rec.mp4',            type: 'video', orientation: 'horizontal', name: 'WEB.COM',           group: 'hyper',  link: 'https://jhkmr.github.io/hyper_print/' },
+
+    { src: 'media/Compositions.png', type: 'image', orientation: 'horizontal', name: 'COMPOSITIONS.PNG', group: 'project' },
+    { src: 'media/ezgif.com-optimize-2.gif', type: 'image', orientation: 'vertical', name: 'COMPOSITIONS.GIF', group: 'project' },
+    { src: 'media/ezgif.com-optimize.gif',          type: 'image', orientation: 'vertical',   name: 'COMPOSITION.GIF',         group: 'project' },
+    { src: 'media/R0012625.JPG',     type: 'image', orientation: 'horizontal',   name: 'PRINT_PROCESS.JPG',    group: 'project' },
+    { src: 'media/ScreenshotOne.png',   type: 'image', orientation: 'horizontal',   name: 'EXPLORATIONS.PNG',   group: 'project' },
+    { src: 'media/ScreenshotTwo.png',   type: 'image', orientation: 'horizontal',   name: 'EXPERIMENT_PROCESS.PNG',   group: 'project' },
+    { src: 'media/videoOne.mp4',   type: 'video', orientation: 'vertical',   name: 'PRINT_FEED.PNG',   group: 'project' },
+    { src: 'media/videoTwo.mp4',   type: 'video', orientation: 'vertical',   name: 'PUBLICATION.PNG',   group: 'project' },
 ];
 
 function shuffle(arr) {
@@ -64,10 +65,17 @@ function createItem(item) {
         a.rel = 'noopener noreferrer';
         a.appendChild(el);
         wrapper.appendChild(a);
+
+        const tagA = document.createElement('a');
+        tagA.href = item.link;
+        tagA.target = '_blank';
+        tagA.rel = 'noopener noreferrer';
+        tagA.appendChild(tag);
+        wrapper.appendChild(tagA);
     } else {
         wrapper.appendChild(el);
+        wrapper.appendChild(tag);
     }
-    wrapper.appendChild(tag);
 
     wrapper.addEventListener('mouseenter', () => window.onMediaHover?.(item.group));
     wrapper.addEventListener('mouseleave', () => window.onMediaHoverOut?.());
